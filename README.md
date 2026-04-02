@@ -1,5 +1,3 @@
-# DjangoAdvancedExam
----
 # BoardGameConnect: Development Plan
 
 This document outlines my development plan for BoardGameConnect, a web application designed for local board game enthusiasts to catalog, review, and rent games from one another. The project will be built using Django and Django REST Framework, adhering to strict architectural and structural requirements.
