@@ -1,41 +1,81 @@
-# BoardGameConnect: Development Plan
+# BoardGameConnect
 
-This document outlines my development plan for BoardGameConnect, a web application designed for local board game enthusiasts to catalog, review, and rent games from one another. The project will be built using Django and Django REST Framework, adhering to strict architectural and structural requirements.
+Just a Django app idea for local board game people.
 
-## Core Architecture
+Goal (eventually): you can list your games, browse other people’s games, request to borrow them, and leave reviews.
 
-I will divide the project into exactly five modular Django apps to separate concerns and maintain clean code:
+Right now it’s basically the “starter base” of the project, but it already runs.
 
-1.  **`accounts`**: Will handle custom user authentication, profiles, and role management.
-2.  **`catalog`**: Will manage the board games, categories, and inventory display.
-3.  **`rentals`**: Will track borrowing requests, approvals, and return statuses.
-4.  **`reviews`**: Will handle user-generated ratings and comments for both games and other users.
-5.  **`api`**: Will serve as the dedicated Django REST Framework app for external data access.
+## The basic plan (messy notes)
 
-## Database Design & Models
+I’m keeping it as **exactly 5 Django apps** so it doesn’t turn into spaghetti:
 
-I am extending the built-in Django `AbstractUser` to create a custom user model. The database will use PostgreSQL and consist of the following core models to satisfy the relational requirements:
+* `accounts` — login/signup, profiles, roles
+* `catalog` — games + categories and showing them
+* `rentals` — borrow requests / approvals / returns
+* `reviews` — ratings + comments (games + maybe users too)
+* `api` — DRF endpoints
 
-* **CustomUser**: Extended with fields like location, avatar, and bio.
-* **Game**: Stores game details (title, description, player count). 
-    * *Relationship:* Foreign Key to `CustomUser` (the owner).
-* **Category**: Genre tags for the games (e.g., Strategy, Party).
-    * *Relationship:* Many-to-Many with `Game`.
-* **Rental**: Tracks the transaction between two users.
-    * *Relationship:* Foreign Key to `Game` and Foreign Key to `CustomUser` (the borrower).
-* **Wishlist**: A collection of games a user wants to play.
-    * *Relationship:* Many-to-Many between `CustomUser` and `Game`.
+Models we want to end up with:
 
-## Roles and Permissions
+* `CustomUser` (extends `AbstractUser`) with stuff like location/avatar/bio
+* `Game` (belongs to an owner user)
+* `Category` (games can have many categories)
+* `Rental` (game + borrower + status)
+* `Wishlist` (users can save games they want)
 
-I will configure two primary user groups in the Django admin panel with distinct permission sets:
-* **Owners**: Users who list their games. They have full CRUD permissions over their own game listings and can approve/reject rental requests.
-* **Renters**: Users who browse the catalog. They can read game details, submit rental requests, and write reviews, but cannot modify the catalog itself.
+Permissions idea (later in admin groups):
 
-## Development Roadmap & Technical Features
+* Owners: can manage their own games + approve rental requests
+* Renters: can browse + request rentals + write reviews
 
-* **Views & Forms**: I will use Class-Based Views (CBVs) for roughly 90% of the application logic. I plan to build at least seven forms (e.g., Registration, Login, Add Game, Edit Profile, Request Rental, Submit Review), utilizing custom validations, read-only fields for immutable data (like rental dates once approved), and tailored error messages.
-* **Frontend**: The UI will consist of 15+ templates rendered via the Django Template Engine using a base template, partials, and a responsive Bootstrap layout. Dynamic pages will include the main catalog, filtered category views, individual game details, user profiles, and customized 404/500 error pages.
-* **RESTful API**: The `api` app will expose a catalog endpoint, allowing external clients to fetch game data and availability in JSON format using DRF serializers and appropriate permission classes.
-* **Asynchronous Processing**: I will integrate Celery with Redis to handle background tasks. Specifically, this will be used to automatically process overdue rental statuses and send asynchronous email notifications to users.
-* **Testing & Deployment**: I will write a minimum of 15 tests covering custom form validations, model methods, and critical views. Once the core features are stable, the application will be containerized and deployed to a cloud platform, utilizing environment variables to secure all sensitive credentials.
+Other stuff I want later (not doing all of this yet): mostly CBVs, a bunch of forms, Bootstrap templates, DRF for catalog, Celery+Redis for overdue rentals + emails, tests, then containerize/deploy.
+
+---
+
+## What actually works right now
+
+Auth works:
+
+* signup
+* login
+* logout
+* a simple “my profile” page
+
+Catalog works (super basic):
+
+* `Game` + `Category` models
+* game list page
+* game detail page
+* add game page (you need to be logged in)
+
+Also there’s a tiny DRF endpoint just to prove DRF is wired: `/api/ping/`.
+
+## How to run it
+
+If you already have a venv, just activate it. Otherwise:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+Optional admin user:
+
+```bash
+python manage.py createsuperuser
+```
+
+## Links (when the server is running)
+
+* Home: `http://127.0.0.1:8000/`
+* Sign up: `http://127.0.0.1:8000/accounts/signup/`
+* Login: `http://127.0.0.1:8000/accounts/login/`
+* Profile: `http://127.0.0.1:8000/accounts/me/`
+* Catalog: `http://127.0.0.1:8000/catalog/`
+* Add game: `http://127.0.0.1:8000/catalog/games/new/`
+* Admin: `http://127.0.0.1:8000/admin/`
+* API ping: `http://127.0.0.1:8000/api/ping/`

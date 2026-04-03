@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile | BoardGameConnect{% endblock %}
+
+{% block content %}
+  <h1 class="h3 mb-3">My profile</h1>
+
+  <div class="card card-body">
+    <p class="mb-1"><strong>Username:</strong> {{ user.username }}</p>
+    <p class="mb-1"><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+    <p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>
+    <p class="mb-1"><strong>Location:</strong> {{ user.location }}</p>
+    <p class="mb-1"><strong>Avatar:</strong> {% if user.avatar %}<a href="{{ user.avatar }}" target="_blank" rel="noreferrer">{{ user.avatar }}</a>{% else %}-{% endif %}</p>
+    <p class="mb-0"><strong>Bio:</strong> {{ user.bio|default:"-" }}</p>
+  </div>
+{% endblock %}

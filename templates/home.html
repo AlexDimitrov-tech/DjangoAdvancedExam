@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | BoardGameConnect{% endblock %}
+
+{% block content %}
+  <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-tertiary">
+    <div class="col-lg-8 px-0">
+      <h1 class="display-6">BoardGameConnect</h1>
+      <p class="lead my-3">Minimal base project: auth + starter catalog.</p>
+      <p class="mb-0">
+        <a href="{% url 'catalog:game-list' %}" class="btn btn-primary">Browse catalog</a>
+      </p>
+    </div>
+  </div>
+{% endblock %}

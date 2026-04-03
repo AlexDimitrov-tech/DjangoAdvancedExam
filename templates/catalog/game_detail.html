@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ game.title }} | BoardGameConnect{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-start mb-3">
+    <div>
+      <h1 class="h3 mb-1">{{ game.title }}</h1>
+      <div class="text-secondary">Owner: {{ game.owner.username }}</div>
+    </div>
+    <a class="btn btn-outline-secondary" href="{% url 'catalog:game-list' %}">Back</a>
+  </div>
+
+  <div class="card card-body">
+    <p class="mb-2"><strong>Players:</strong> {{ game.min_players }} - {{ game.max_players }}</p>
+    <p class="mb-2"><strong>Description:</strong> {{ game.description|default:"-" }}</p>
+    <p class="mb-0"><strong>Categories:</strong>
+      {% for c in game.categories.all %}
+        <span class="badge text-bg-secondary">{{ c.name }}</span>
+      {% empty %}
+        -
+      {% endfor %}
+    </p>
+  </div>
+{% endblock %}
