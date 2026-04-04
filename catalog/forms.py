@@ -9,8 +9,15 @@ class GameForm(forms.ModelForm):
         for name, field in self.fields.items():
             if name == 'categories':
                 field.widget.attrs.setdefault('class', 'form-select')
+                field.help_text = 'Hold Ctrl/Cmd if you want to pick more than one.'
             else:
                 field.widget.attrs.setdefault('class', 'form-control')
+
+        self.fields['title'].widget.attrs.setdefault('placeholder', 'Example: Catan')
+        self.fields['description'].widget.attrs.setdefault(
+            'placeholder',
+            'Short note about the game, vibe, or why it is fun for your group.',
+        )
 
     class Meta:
         model = Game

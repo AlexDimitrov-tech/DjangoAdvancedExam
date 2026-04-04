@@ -6,10 +6,40 @@
   <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-tertiary">
     <div class="col-lg-8 px-0">
       <h1 class="display-6">BoardGameConnect</h1>
-      <p class="lead my-3">Minimal base project: auth + starter catalog.</p>
-      <p class="mb-0">
+      <p class="lead my-3">A simple starter for local board game people to share what they own and discover something new to play.</p>
+      <div class="d-flex flex-wrap gap-3 small text-secondary mb-3">
+        <span>{{ game_count }} listed game{{ game_count|pluralize }}</span>
+        <span>{{ category_count }} categor{{ category_count|pluralize:"y,ies" }}</span>
+      </div>
+      <p class="mb-0 d-flex flex-wrap gap-2">
         <a href="{% url 'catalog:game-list' %}" class="btn btn-primary">Browse catalog</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'catalog:game-create' %}" class="btn btn-outline-secondary">Add your game</a>
+        {% endif %}
       </p>
     </div>
   </div>
+
+  {% if latest_games %}
+    <section>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-0">Recently added</h2>
+        <a href="{% url 'catalog:game-list' %}" class="link-secondary">See all</a>
+      </div>
+      <div class="row g-3">
+        {% for game in latest_games %}
+          <div class="col-md-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h3 class="h5 card-title">{{ game.title }}</h3>
+                <p class="card-text text-body-secondary small mb-2">Owner: {{ game.owner.username }}</p>
+                <p class="card-text small mb-3">Players: {{ game.min_players }} - {{ game.max_players }}</p>
+                <a href="{% url 'catalog:game-detail' game.pk %}" class="btn btn-sm btn-outline-primary">View game</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
 {% endblock %}

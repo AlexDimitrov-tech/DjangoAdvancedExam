@@ -14,12 +14,13 @@
   <div class="card card-body">
     <p class="mb-2"><strong>Players:</strong> {{ game.min_players }} - {{ game.max_players }}</p>
     <p class="mb-2"><strong>Description:</strong> {{ game.description|default:"-" }}</p>
-    <p class="mb-0"><strong>Categories:</strong>
+    <p class="mb-2"><strong>Categories:</strong>
       {% for c in game.categories.all %}
         <span class="badge text-bg-secondary">{{ c.name }}</span>
       {% empty %}
         -
       {% endfor %}
     </p>
+    <p class="mb-0 text-body-secondary small">Listed on {{ game.created_at|date:"M j, Y" }}</p>
   </div>
 {% endblock %}
