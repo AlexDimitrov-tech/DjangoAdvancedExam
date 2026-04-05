@@ -5,12 +5,29 @@
 {% block content %}
   <h1 class="h3 mb-3">My profile</h1>
 
-  <div class="card card-body">
-    <p class="mb-1"><strong>Username:</strong> {{ user.username }}</p>
-    <p class="mb-1"><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
-    <p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>
-    <p class="mb-1"><strong>Location:</strong> {{ user.location }}</p>
-    <p class="mb-1"><strong>Avatar:</strong> {% if user.avatar %}<a href="{{ user.avatar }}" target="_blank" rel="noreferrer">{{ user.avatar }}</a>{% else %}-{% endif %}</p>
-    <p class="mb-0"><strong>Bio:</strong> {{ user.bio|default:"-" }}</p>
+  <div class="row g-3">
+    <div class="col-md-4">
+      <div class="card card-body h-100">
+        {% if user.avatar %}
+          <img src="{{ user.avatar }}" alt="{{ user.username }} avatar" class="img-fluid rounded mb-3">
+        {% else %}
+          <div class="border rounded d-flex align-items-center justify-content-center text-secondary mb-3" style="min-height: 220px;">
+            No avatar yet
+          </div>
+        {% endif %}
+        <p class="mb-0 small text-secondary">{% if user.avatar %}Avatar preview from your saved profile URL.{% else %}Add an avatar URL during sign up to personalize your profile.{% endif %}</p>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card card-body h-100">
+        <p class="mb-1"><strong>Username:</strong> {{ user.username }}</p>
+        <p class="mb-1"><strong>Name:</strong> {{ user.first_name|default:"-" }} {{ user.last_name|default:"" }}</p>
+        <p class="mb-1"><strong>Email:</strong> {{ user.email|default:"-" }}</p>
+        <p class="mb-1"><strong>Location:</strong> {{ user.location|default:"-" }}</p>
+        <p class="mb-1"><strong>Avatar URL:</strong> {% if user.avatar %}<a href="{{ user.avatar }}" target="_blank" rel="noreferrer">Open image</a>{% else %}-{% endif %}</p>
+        <p class="mb-3"><strong>Bio:</strong> {{ user.bio|default:"-" }}</p>
+        <p class="mb-0 text-secondary small">Games shared: {{ user.owned_games.count }}</p>
+      </div>
+    </div>
   </div>
 {% endblock %}

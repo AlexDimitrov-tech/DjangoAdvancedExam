@@ -37,7 +37,8 @@
           <div class="d-flex w-100 justify-content-between gap-3">
             <div>
               <h5 class="mb-1">{{ game.title }}</h5>
-              <p class="mb-2 text-body-secondary">Players: {{ game.min_players }} - {{ game.max_players }}</p>
+              <p class="mb-2 text-body-secondary">{{ game.player_range }}</p>
+              <p class="mb-2 small">{{ game.short_description }}</p>
               {% if game.categories.all %}
                 <div class="d-flex flex-wrap gap-1">
                   {% for category in game.categories.all %}

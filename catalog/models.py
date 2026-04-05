@@ -31,3 +31,18 @@ class Game(models.Model):
 
 	def __str__(self) -> str:
 		return self.title
+
+	@property
+	def player_range(self) -> str:
+		if self.min_players == self.max_players:
+			return f'{self.min_players} players'
+		return f'{self.min_players} - {self.max_players} players'
+
+	@property
+	def short_description(self) -> str:
+		text = (self.description or '').strip()
+		if not text:
+			return 'No description yet.'
+		if len(text) <= 120:
+			return text
+		return f'{text[:117].rstrip()}...'
