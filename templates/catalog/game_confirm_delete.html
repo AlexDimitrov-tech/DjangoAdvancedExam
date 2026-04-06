@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete {{ object.title }} | BoardGameConnect{% endblock %}
+
+{% block content %}
+  <h1 class="h3 mb-3">Delete game</h1>
+
+  <div class="alert alert-warning">
+    This action cannot be undone.
+  </div>
+
+  <form method="post" class="card card-body">
+    {% csrf_token %}
+
+    {% for field in form %}
+      <div class="mb-3">
+        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+      </div>
+    {% endfor %}
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-danger" type="submit">Confirm delete</button>
+      <a class="btn btn-outline-secondary" href="{% url 'catalog:game-detail' object.pk %}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

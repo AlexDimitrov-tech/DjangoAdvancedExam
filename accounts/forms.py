@@ -14,6 +14,19 @@ class SignUpForm(UserCreationForm):
                 css_class = 'form-check-input'
             field.widget.attrs.setdefault('class', css_class)
 
+        placeholders = {
+            'username': 'Choose a username',
+            'email': 'you@example.com',
+            'first_name': 'First name',
+            'last_name': 'Last name',
+            'location': 'City or area',
+            'avatar': 'https://example.com/avatar.jpg',
+            'bio': 'Tell people a bit about your game taste',
+        }
+        for name, placeholder in placeholders.items():
+            if name in self.fields:
+                self.fields[name].widget.attrs.setdefault('placeholder', placeholder)
+
     class Meta(UserCreationForm.Meta):
         model = CustomUser
         fields = (
@@ -25,6 +38,11 @@ class SignUpForm(UserCreationForm):
             'avatar',
             'bio',
         )
+        help_texts = {
+            'location': 'Optional. Helpful when arranging local meetups.',
+            'avatar': 'Optional public image URL.',
+            'bio': 'Optional short profile summary.',
+        }
 
     def clean_avatar(self):
         avatar = self.cleaned_data.get('avatar', '')

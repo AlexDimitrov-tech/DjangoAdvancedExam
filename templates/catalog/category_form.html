@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if form.instance.pk %}Edit category{% else %}Add category{% endif %} | BoardGameConnect{% endblock %}
+
+{% block content %}
+  <h1 class="h3 mb-3">{% if form.instance.pk %}Edit category{% else %}Create category{% endif %}</h1>
+
+  <form method="post" class="card card-body" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    {% for field in form %}
+      {% include 'partials/_form_field.html' with field=field %}
+    {% endfor %}
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-primary" type="submit">Save</button>
+      <a class="btn btn-outline-secondary" href="{% url 'catalog:category-list' %}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

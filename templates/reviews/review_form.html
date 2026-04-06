@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if form.instance.pk %}Edit review{% else %}Write review{% endif %} | BoardGameConnect{% endblock %}
+
+{% block content %}
+  <h1 class="h3 mb-3">{% if form.instance.pk %}Edit review{% else %}Write a review{% endif %}</h1>
+  <p class="text-secondary">Share what the game feels like to play, who it works for, and whether you would recommend it.</p>
+
+  <form method="post" class="card card-body" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    {% for field in form %}
+      {% include 'partials/_form_field.html' with field=field %}
+    {% endfor %}
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-primary" type="submit">Save</button>
+      {% if form.instance.pk %}
+        <a class="btn btn-outline-secondary" href="{% url 'catalog:game-detail' form.instance.game.pk %}">Cancel</a>
+      {% else %}
+        <a class="btn btn-outline-secondary" href="{% url 'catalog:game-list' %}">Cancel</a>
+      {% endif %}
+    </div>
+  </form>
+{% endblock %}

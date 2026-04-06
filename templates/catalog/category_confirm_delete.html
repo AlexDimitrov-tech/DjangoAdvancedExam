@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete {{ object.name }} | BoardGameConnect{% endblock %}
+
+{% block content %}
+  <h1 class="h3 mb-3">Delete category</h1>
+
+  <div class="alert alert-warning">Deleting this category will remove it from all linked games.</div>
+
+  <form method="post" class="card card-body">
+    {% csrf_token %}
+
+    {% for field in form %}
+      {% include 'partials/_form_field.html' with field=field %}
+    {% endfor %}
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-danger" type="submit">Confirm delete</button>
+      <a class="btn btn-outline-secondary" href="{% url 'catalog:category-detail' object.pk %}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

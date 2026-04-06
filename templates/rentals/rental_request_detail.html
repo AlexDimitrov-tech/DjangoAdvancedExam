@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Rental request | BoardGameConnect{% endblock %}
+
+{% block content %}
+  <h1 class="h3 mb-3">Rental request</h1>
+  <p class="text-secondary">This page shows the full request details and any actions you can take.</p>
+
+  <div class="card card-body">
+    <p class="mb-1"><strong>Game:</strong> <a href="{% url 'catalog:game-detail' rental.game.pk %}">{{ rental.game.title }}</a></p>
+    <p class="mb-1"><strong>Owner:</strong> {{ rental.game.owner.username }}</p>
+    <p class="mb-1"><strong>Borrower:</strong> {{ rental.borrower.username }}</p>
+    <p class="mb-1"><strong>Status:</strong> {{ rental.get_status_display }}</p>
+    <p class="mb-1"><strong>Requested:</strong> {{ rental.requested_at|date:"M j, Y" }}</p>
+    {% if rental.message %}
+      <hr>
+      <p class="mb-0"><strong>Message:</strong> {{ rental.message }}</p>
+    {% endif %}
+  </div>
+
+  <div class="d-flex flex-wrap gap-2 mt-3">
+    {% if rental.status == 'pending' and user == rental.borrower %}
+      <a class="btn btn-outline-danger" href="{% url 'rentals:request-cancel' rental.pk %}">Cancel request</a>
+    {% endif %}
+
+    {% if rental.status == 'pending' and user == rental.game.owner %}
+      <a class="btn btn-primary" href="{% url 'rentals:request-decide' rental.pk %}">Decide</a>
+    {% endif %}
+
+    <a class="btn btn-outline-secondary" href="{% url 'home' %}">Home</a>
+  </div>
+{% endblock %}

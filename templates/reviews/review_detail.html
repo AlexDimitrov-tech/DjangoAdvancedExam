@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% load review_extras %}
+
+{% block title %}Review for {{ review.game.title }} | BoardGameConnect{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+    <div>
+      <h1 class="h3 mb-1">Review for {{ review.game.title }}</h1>
+      <div class="small text-secondary">Written by {{ review.author.username }} on {{ review.created_at|date:'M j, Y' }}</div>
+    </div>
+    <a class="btn btn-outline-secondary" href="{% url 'reviews:review-list' %}">Back to reviews</a>
+  </div>
+
+  <div class="card card-body">
+    <p class="mb-2"><strong>Game:</strong> <a href="{% url 'catalog:game-detail' review.game.pk %}">{{ review.game.title }}</a></p>
+    <p class="mb-2"><strong>Owner:</strong> {{ review.game.owner.username }}</p>
+    <p class="mb-2"><strong>Rating:</strong> <span class="text-warning">{{ review.rating|stars }}</span></p>
+    <p class="mb-0"><strong>Comment:</strong> {{ review.comment|default:'No written comment.' }}</p>
+  </div>
+
+  {% if user.is_staff or user == review.author %}
+    <div class="d-flex gap-2 mt-3">
+      <a class="btn btn-outline-primary" href="{% url 'reviews:review-update' review.pk %}">Edit</a>
+      <a class="btn btn-outline-danger" href="{% url 'reviews:review-delete' review.pk %}">Delete</a>
+    </div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Page not found | BoardGameConnect{% endblock %}
+
+{% block content %}
+  <div class="text-center py-5">
+    <h1 class="display-6">404</h1>
+    <p class="text-secondary">That page does not seem to exist anymore, or the link was incorrect.</p>
+    <a class="btn btn-primary" href="{% url 'home' %}">Go home</a>
+  </div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete review | BoardGameConnect{% endblock %}
+
+{% block content %}
+  <h1 class="h3 mb-3">Delete review</h1>
+
+  <div class="alert alert-warning">Use this only if you really want to remove the review from the page.</div>
+
+  <form method="post" class="card card-body">
+    {% csrf_token %}
+
+    {% for field in form %}
+      {% include 'partials/_form_field.html' with field=field %}
+    {% endfor %}
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-danger" type="submit">Confirm delete</button>
+      <a class="btn btn-outline-secondary" href="{% url 'catalog:game-detail' object.game.pk %}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

@@ -29,14 +29,7 @@
       <div class="row g-3">
         {% for game in latest_games %}
           <div class="col-md-4">
-            <div class="card h-100">
-              <div class="card-body">
-                <h3 class="h5 card-title">{{ game.title }}</h3>
-                <p class="card-text text-body-secondary small mb-2">Owner: {{ game.owner.username }}</p>
-                <p class="card-text small mb-3">Players: {{ game.min_players }} - {{ game.max_players }}</p>
-                <a href="{% url 'catalog:game-detail' game.pk %}" class="btn btn-sm btn-outline-primary">View game</a>
-              </div>
-            </div>
+            {% include 'partials/_game_card.html' with game=game %}
           </div>
         {% endfor %}
       </div>

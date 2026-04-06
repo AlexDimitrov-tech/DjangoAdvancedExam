@@ -1,21 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %}Add game | BoardGameConnect{% endblock %}
+{% block title %}{% if form.instance.pk %}Edit game{% else %}Add game{% endif %} | BoardGameConnect{% endblock %}
 
 {% block content %}
-  <h1 class="h3 mb-3">Add a game</h1>
+  <h1 class="h3 mb-3">{% if form.instance.pk %}Edit game{% else %}Add a game{% endif %}</h1>
 
-  <form method="post" class="card card-body" novalidate>
+  <form method="post" enctype="multipart/form-data" class="card card-body" novalidate>
     {% csrf_token %}
     {{ form.non_field_errors }}
 
     {% for field in form %}
-      <div class="mb-3">
-        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-        {{ field }}
-        {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
-        {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
-      </div>
+      {% include 'partials/_form_field.html' with field=field %}
     {% endfor %}
 
     <button class="btn btn-primary" type="submit">Save</button>

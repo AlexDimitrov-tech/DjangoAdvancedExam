@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Cancel request | BoardGameConnect{% endblock %}
+
+{% block content %}
+  <h1 class="h3 mb-3">Cancel request</h1>
+
+  <div class="alert alert-warning">If your plans changed, you can cancel this request here.</div>
+
+  <form method="post" class="card card-body">
+    {% csrf_token %}
+
+    {% for field in form %}
+      {% include 'partials/_form_field.html' with field=field %}
+    {% endfor %}
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-danger" type="submit">Confirm cancel</button>
+      <a class="btn btn-outline-secondary" href="{% url 'rentals:request-detail' rental.pk %}">Back</a>
+    </div>
+  </form>
+{% endblock %}

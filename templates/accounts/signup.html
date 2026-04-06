@@ -4,18 +4,14 @@
 
 {% block content %}
   <h1 class="h3 mb-3">Create account</h1>
+  <p class="text-secondary">Create a profile so you can list games, borrow from other members, and leave reviews.</p>
 
   <form method="post" class="card card-body" novalidate>
     {% csrf_token %}
     {{ form.non_field_errors }}
 
     {% for field in form %}
-      <div class="mb-3">
-        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-        {{ field }}
-        {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
-        {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
-      </div>
+      {% include 'partials/_form_field.html' with field=field %}
     {% endfor %}
 
     <button class="btn btn-primary" type="submit">Sign up</button>

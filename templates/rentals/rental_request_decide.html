@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Decide request | BoardGameConnect{% endblock %}
+
+{% block content %}
+  <h1 class="h3 mb-3">Decide request</h1>
+  <p class="text-secondary">Review the request details, then approve or decline it.</p>
+
+  <div class="card card-body mb-3">
+    <p class="mb-1"><strong>Game:</strong> {{ rental.game.title }}</p>
+    <p class="mb-1"><strong>Borrower:</strong> {{ rental.borrower.username }}</p>
+    {% if rental.message %}<p class="mb-0"><strong>Message:</strong> {{ rental.message }}</p>{% endif %}
+  </div>
+
+  <form method="post" class="card card-body" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div class="mb-3">
+      <label class="form-label" for="{{ form.decision.id_for_label }}">{{ form.decision.label }}</label>
+      {{ form.decision }}
+      {% for error in form.decision.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+    </div>
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-primary" type="submit">Submit decision</button>
+      <a class="btn btn-outline-secondary" href="{% url 'rentals:request-detail' rental.pk %}">Cancel</a>
+    </div>
+  </form>
+{% endblock %}

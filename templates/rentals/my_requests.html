@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}My rentals | BoardGameConnect{% endblock %}
+
+{% block content %}
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <h1 class="h3 mb-0">My rental requests</h1>
+    <form method="get" class="d-flex gap-2">
+      <select name="status" class="form-select">
+        <option value="">All statuses</option>
+        {% for value, label in statuses %}
+          <option value="{{ value }}" {% if status == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+      <button class="btn btn-outline-primary" type="submit">Filter</button>
+    </form>
+  </div>
+
+  <p class="text-secondary">This page keeps track of the requests you have sent to other members.</p>
+
+  {% if requests %}
+    <div class="list-group">
+      {% for r in requests %}
+        <a class="list-group-item list-group-item-action" href="{% url 'rentals:request-detail' r.pk %}">
+          <div class="d-flex justify-content-between align-items-start gap-2">
+            <div>
+              <div class="fw-semibold">{{ r.game.title }}</div>
+              <div class="text-secondary small">Owner: {{ r.game.owner.username }}</div>
+              {% if r.message %}<div class="small mt-1">{{ r.message }}</div>{% endif %}
+            </div>
+            <span class="badge text-bg-secondary">{{ r.get_status_display }}</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-secondary mb-0">No requests yet.</div>
+  {% endif %}
+{% endblock %}

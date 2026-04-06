@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Login | BoardGameConnect{% endblock %}
+{% block title %}Log in | BoardGameConnect{% endblock %}
 
 {% block content %}
-  <h1 class="h3 mb-3">Login</h1>
+  <h1 class="h3 mb-3">Log in</h1>
+  <p class="text-secondary">Welcome back. Sign in to manage your games, rentals, and reviews.</p>
   <form method="post" class="card card-body" novalidate>
     {% csrf_token %}
     {{ form.non_field_errors }}
@@ -20,6 +21,6 @@
       {% for error in form.password.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
     </div>
 
-    <button class="btn btn-primary" type="submit">Login</button>
+    <button class="btn btn-primary" type="submit">Log in</button>
   </form>
 {% endblock %}
