@@ -208,4 +208,4 @@ DJANGO_ALLOWED_HOSTS=your-domain.com,www.your-domain.com
 - add unread notification badges
 - improve category filtering in the catalog
 - add email notifications for rental updates
-- add better image handling for uploaded covers
+- improve cover image handling
