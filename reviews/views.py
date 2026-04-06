@@ -1,6 +1,7 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
@@ -18,7 +19,8 @@ class ReviewCreateView(LoginRequiredMixin, CreateView):
     def dispatch(self, request, *args, **kwargs):
         self.game = get_object_or_404(Game, pk=kwargs['game_pk'])
         if self.game.owner == request.user and not request.user.is_staff:
-            raise PermissionDenied
+            messages.info(request, 'You cannot review your own game listing.')
+            return redirect('catalog:game-detail', pk=self.game.pk)
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):

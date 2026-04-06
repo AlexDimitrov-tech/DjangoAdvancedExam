@@ -2,7 +2,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from .forms import LoginForm
-from .views import ProfileView, SignUpView
+from .views import ProfileEditView, ProfileView, SignUpView
 
 app_name = 'accounts'
 
@@ -15,4 +15,5 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('signup/', SignUpView.as_view(), name='signup'),
     path('me/', ProfileView.as_view(), name='profile'),
+    path('me/edit/', ProfileEditView.as_view(), name='profile-edit'),
 ]

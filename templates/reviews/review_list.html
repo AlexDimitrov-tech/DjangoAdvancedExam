@@ -10,7 +10,7 @@
     <a class="btn btn-outline-secondary" href="{% url 'catalog:game-list' %}">Browse games</a>
   </div>
 
-  <p class="text-secondary">See what other members thought after borrowing or playing a game.</p>
+  <p class="text-secondary">A quick look at what people actually thought after playing or borrowing a game.</p>
 
   {% if reviews %}
     <div class="list-group mb-3">
@@ -47,6 +47,6 @@
       </nav>
     {% endif %}
   {% else %}
-    <div class="alert alert-secondary mb-0">No reviews yet.</div>
+    <div class="alert alert-secondary mb-0">No reviews yet. Somebody has to go first.</div>
   {% endif %}
 {% endblock %}

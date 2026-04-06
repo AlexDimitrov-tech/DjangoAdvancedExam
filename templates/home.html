@@ -6,7 +6,7 @@
   <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-tertiary">
     <div class="col-lg-8 px-0">
       <h1 class="display-6">BoardGameConnect</h1>
-      <p class="lead my-3">A simple starter for local board game people to share what they own and discover something new to play.</p>
+      <p class="lead my-3">A place where people can list their board games, borrow from each other, and leave honest reviews after game night.</p>
       <div class="d-flex flex-wrap gap-3 small text-secondary mb-3">
         <span>{{ game_count }} listed game{{ game_count|pluralize }}</span>
         <span>{{ category_count }} categor{{ category_count|pluralize:"y,ies" }}</span>
@@ -14,7 +14,7 @@
       <p class="mb-0 d-flex flex-wrap gap-2">
         <a href="{% url 'catalog:game-list' %}" class="btn btn-primary">Browse catalog</a>
         {% if user.is_authenticated %}
-          <a href="{% url 'catalog:game-create' %}" class="btn btn-outline-secondary">Add your game</a>
+          <a href="{% url 'catalog:game-create' %}" class="btn btn-outline-secondary">List a game</a>
         {% endif %}
       </p>
     </div>

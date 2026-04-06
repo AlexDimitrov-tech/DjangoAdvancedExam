@@ -2,7 +2,7 @@
 
 BoardGameConnect is a Django web app for local board-game communities.
 
-The idea is simple: people create profiles, share the games they own, browse what others have listed, send borrow requests, and leave reviews after playing. I wanted the project to feel like a practical community platform instead of just a collection of disconnected CRUD pages.
+Users can create profiles, list the games they own, browse the catalog, send borrow requests, and leave reviews.
 
 ## What the project does
 
@@ -30,15 +30,13 @@ Authenticated users can:
 
 ## Project structure
 
-The application is organized into five Django apps with separate responsibilities:
+The application is split into five Django apps:
 
 - `accounts` - authentication, profile data, and user roles
 - `catalog` - games and categories
 - `rentals` - borrow requests, statuses, and notifications
 - `reviews` - ratings and written reviews
 - `api` - Django REST Framework endpoints
-
-Keeping the project split this way made it easier to reason about features and avoid putting everything into one giant app.
 
 ## Main features
 
@@ -198,8 +196,16 @@ DJANGO_SECRET_KEY=your-secret-key
 DJANGO_ALLOWED_HOSTS=your-domain.com,www.your-domain.com
 ```
 
-## Final note
+## Notes
 
-This project was built to show a complete Django application with authentication, permissions, modular structure, class-based views, REST endpoints, template rendering, async processing, testing, and deployment.
+- SQLite is the default local database so the project starts faster.
+- PostgreSQL can still be used if needed.
+- Notifications are currently in-app notifications, not email notifications.
+- Media handling is kept simple in this version of the project.
 
-It is not meant to be just a demo homepage with a few forms glued onto it — the goal was to build something that feels like a real small community platform.
+## Possible next improvements
+
+- add unread notification badges
+- improve category filtering in the catalog
+- add email notifications for rental updates
+- add better image handling for uploaded covers

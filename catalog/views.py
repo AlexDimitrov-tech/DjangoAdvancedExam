@@ -21,6 +21,7 @@ class CategoryListView(ListView):
 	context_object_name = 'categories'
 
 	def get_queryset(self):
+		# categories are small now, but prefetching saves us from silly extra queries later
 		return Category.objects.select_related('created_by').prefetch_related('games')
 
 
@@ -99,6 +100,7 @@ class GameListView(ListView):
 
 	def get_queryset(self):
 		query = self.request.GET.get('q', '').strip()
+		# searching owner/category/title in one place is easier than adding separate filters for this version
 		queryset = (
 			Game.objects.select_related('owner')
 			.prefetch_related('categories')
@@ -125,6 +127,7 @@ class GameDetailView(DetailView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
+		# this is only for the detail page buttons, not for permissions in general
 		context['reviews'] = (
 			Review.objects.select_related('author')
 			.filter(game=self.object)
@@ -188,6 +191,7 @@ class GameDeleteView(OwnerOrStaffRequiredMixin, DeleteView):
 class ToggleFavoriteView(LoginRequiredMixin, View):
 	def post(self, request, pk: int):
 		game = get_object_or_404(Game, pk=pk)
+		# tiny toggle endpoint, nothing fancy here
 		if game.favorited_by.filter(pk=request.user.pk).exists():
 			game.favorited_by.remove(request.user)
 		else:

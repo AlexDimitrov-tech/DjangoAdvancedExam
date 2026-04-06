@@ -58,3 +58,53 @@ class AccountsViewsTests(TestCase):
 		response = self.client.get(reverse('accounts:profile'))
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'accounts/profile.html')
+
+	def test_profile_edit_updates_user_data(self):
+		user = User.objects.create_user(
+			username='editme',
+			password='StrongPass123!',
+			email='old@example.com',
+			location='Old town',
+		)
+		self.client.login(username='editme', password='StrongPass123!')
+
+		response = self.client.post(
+			reverse('accounts:profile-edit'),
+			data={
+				'first_name': 'Alex',
+				'last_name': 'Dimitrov',
+				'email': 'alex@example.com',
+				'location': 'Sofia',
+				'avatar': 'https://example.com/avatar.png',
+				'bio': 'Likes euro games.',
+			},
+			follow=True,
+		)
+
+		self.assertEqual(response.status_code, 200)
+		user.refresh_from_db()
+		self.assertEqual(user.first_name, 'Alex')
+		self.assertEqual(user.last_name, 'Dimitrov')
+		self.assertEqual(user.email, 'alex@example.com')
+		self.assertEqual(user.location, 'Sofia')
+		self.assertEqual(user.avatar, 'https://example.com/avatar.png')
+		self.assertEqual(user.bio, 'Likes euro games.')
+
+	def test_profile_edit_avatar_still_requires_http_url(self):
+		user = User.objects.create_user(username='badedit', password='StrongPass123!')
+		self.client.login(username='badedit', password='StrongPass123!')
+
+		response = self.client.post(
+			reverse('accounts:profile-edit'),
+			data={
+				'first_name': '',
+				'last_name': '',
+				'email': '',
+				'location': '',
+				'avatar': 'not-a-url',
+				'bio': '',
+			},
+		)
+
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, 'Enter a valid URL.')

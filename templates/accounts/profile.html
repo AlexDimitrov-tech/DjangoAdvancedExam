@@ -3,8 +3,13 @@
 {% block title %}Profile | BoardGameConnect{% endblock %}
 
 {% block content %}
-  <h1 class="h3 mb-3">My profile</h1>
-  <p class="text-secondary">A quick overview of your account, public profile details, and recent activity.</p>
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <div>
+      <h1 class="h3 mb-1">My profile</h1>
+      <p class="text-secondary mb-0">Your basic account details, the profile info other people can see, and the latest rental updates.</p>
+    </div>
+    <a class="btn btn-outline-primary" href="{% url 'accounts:profile-edit' %}">Edit profile</a>
+  </div>
 
   <div class="row g-3">
     <div class="col-md-4">
@@ -13,10 +18,10 @@
           <img src="{{ user.avatar }}" alt="{{ user.username }} avatar" class="img-fluid rounded mb-3">
         {% else %}
           <div class="border rounded d-flex align-items-center justify-content-center text-secondary mb-3" style="min-height: 220px;">
-            No avatar yet
+            No avatar added yet
           </div>
         {% endif %}
-        <p class="mb-0 small text-secondary">{% if user.avatar %}Avatar preview from your saved profile URL.{% else %}Add an avatar URL during sign up to personalize your profile.{% endif %}</p>
+        <p class="mb-0 small text-secondary">{% if user.avatar %}This is the image pulled from the avatar URL saved in your profile.{% else %}You can add an avatar URL later if you want the profile page to feel less empty.{% endif %}</p>
       </div>
     </div>
     <div class="col-md-8">
@@ -27,7 +32,7 @@
         <p class="mb-1"><strong>Location:</strong> {{ user.location|default:"-" }}</p>
         <p class="mb-1"><strong>Avatar URL:</strong> {% if user.avatar %}<a href="{{ user.avatar }}" target="_blank" rel="noreferrer">Open image</a>{% else %}-{% endif %}</p>
         <p class="mb-3"><strong>Bio:</strong> {{ user.bio|default:"-" }}</p>
-        <p class="mb-0 text-secondary small">Games shared: {{ user.owned_games.count }}</p>
+        <p class="mb-0 text-secondary small">Games shared so far: {{ user.owned_games.count }}</p>
       </div>
     </div>
   </div>
@@ -50,7 +55,7 @@
           {% endfor %}
         </div>
       {% else %}
-        <p class="mb-0 text-secondary">No notifications yet.</p>
+        <p class="mb-0 text-secondary">No notifications yet. Quiet is good sometimes.</p>
       {% endif %}
     </div>
   </section>

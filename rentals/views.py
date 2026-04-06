@@ -19,6 +19,7 @@ class RentalRequestCreateView(LoginRequiredMixin, CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         self.game = get_object_or_404(Game, pk=kwargs['game_pk'])
+        # owners should not be able to request their own game through the normal flow
         if self.game.owner == request.user and not request.user.is_staff:
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
@@ -27,6 +28,7 @@ class RentalRequestCreateView(LoginRequiredMixin, CreateView):
         form.instance.game = self.game
         form.instance.borrower = self.request.user
         response = super().form_valid(form)
+        # keeping the async call here makes the request flow simple to follow
         notify_rental_status_change.delay(self.object.pk, self.object.status)
         return response
 
@@ -47,6 +49,7 @@ class MyRentalRequestListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         status = (self.request.GET.get('status') or '').strip()
+        # not elegant, but it keeps the filter UI dead simple
         qs = RentalRequest.objects.select_related('game', 'game__owner').filter(borrower=self.request.user)
         if status:
             qs = qs.filter(status=status)
@@ -114,6 +117,7 @@ class RentalCancelView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         self.rental.status = RentalRequest.Status.CANCELLED
         self.rental.decided_at = timezone.now()
+        # update_fields is enough here and keeps the write small
         self.rental.save(update_fields=['status', 'decided_at', 'updated_at'])
         notify_rental_status_change.delay(self.rental.pk, self.rental.status)
         return super().form_valid(form)
@@ -143,6 +147,7 @@ class RentalDecisionView(LoginRequiredMixin, FormView):
         decision = form.cleaned_data['decision']
         self.rental.status = decision
         self.rental.decided_at = timezone.now()
+        # same reason as cancel: no need to save every field on the model
         self.rental.save(update_fields=['status', 'decided_at', 'updated_at'])
         notify_rental_status_change.delay(self.rental.pk, self.rental.status)
         return super().form_valid(form)

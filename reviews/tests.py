@@ -72,5 +72,8 @@ class ReviewsViewsTests(TestCase):
 		response = self.client.post(
 			reverse('reviews:review-create', kwargs={'game_pk': self.game.pk}),
 			data={'rating': 5, 'comment': 'My own game is great'},
+			follow=True,
 		)
-		self.assertEqual(response.status_code, 403)
+		self.assertEqual(response.status_code, 200)
+		self.assertRedirects(response, reverse('catalog:game-detail', kwargs={'pk': self.game.pk}))
+		self.assertContains(response, 'You cannot review your own game listing.')
