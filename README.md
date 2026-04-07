@@ -179,15 +179,24 @@ To run the test suite:
 python manage.py test
 ```
 
-## Deployment notes
+📌 Project Deployment
 
-For production, the app can run with:
-- Gunicorn as the application server
-- Caddy or Nginx as a reverse proxy
-- WhiteNoise for static files
-- Redis and Celery for background processing
-- SQLite or PostgreSQL as the relational database
+The project is deployed and hosted on a self-managed server.
 
+Access it here:
+👉 http://softuni.betfix.xyz
+
+🛠️ Deployment Details
+	•	Hosting: Self-hosted server
+	•	Access: Subdomain of the main domain betfix.xyz
+	•	Subdomain: softuni.betfix.xyz
+	•	Status: Fully deployed and accessible online
+
+🚀 Notes
+	•	Make sure the server is running and accessible
+	•	Verify DNS records are correctly configured
+
+  
 Minimum production environment settings:
 
 ```env
@@ -209,3 +218,6 @@ DJANGO_ALLOWED_HOSTS=your-domain.com,www.your-domain.com
 - improve category filtering in the catalog
 - add email notifications for rental updates
 - improve cover image handling
+
+
+
