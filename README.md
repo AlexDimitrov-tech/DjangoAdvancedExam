@@ -179,23 +179,6 @@ To run the test suite:
 python manage.py test
 ```
 
-📌 Project Deployment
-
-The project is deployed and hosted on a self-managed server.
-
-Access it here:
-👉 http://softuni.betfix.xyz
-
-🛠️ Deployment Details
-	•	Hosting: Self-hosted server
-	•	Access: Subdomain of the main domain betfix.xyz
-	•	Subdomain: softuni.betfix.xyz
-	•	Status: Fully deployed and accessible online
-
-🚀 Notes
-	•	Make sure the server is running and accessible
-	•	Verify DNS records are correctly configured
-
   
 Minimum production environment settings:
 
@@ -219,5 +202,23 @@ DJANGO_ALLOWED_HOSTS=your-domain.com,www.your-domain.com
 - add email notifications for rental updates
 - improve cover image handling
 
+
+
+📌 Project Deployment
+
+The project is deployed and hosted on a self-managed server.
+
+Access it here:
+👉 http://softuni.betfix.xyz
+
+🛠️ Deployment Details
+	•	Hosting: Self-hosted server
+	•	Access: Subdomain of the main domain betfix.xyz
+	•	Subdomain: softuni.betfix.xyz
+	•	Status: Fully deployed and accessible online
+
+🚀 Notes
+	•	Make sure the server is running and accessible
+	•	Verify DNS records are correctly configured
 
 
